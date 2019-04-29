@@ -154,3 +154,8 @@ coverage/
 
 # Packed lab extensions
 flatsurf_widgets/labextension
+
+# Hot update artifacts
+*.hot-update.json
+*.hot-update.js
+*.hot-update.js.map

@@ -77,4 +77,13 @@ If you are working in *Jupyter Lab*, just reload your browser tab. A dialog shou
 
 ### Hot Module Reloading
 
+At the moment only works in the classical notebook and only for notebooks
+inside the examples directory (also source maps do not get updated…it's very
+hacky to say the least…)
 
+```bash
+yarn webpack-dev-server --config webpack-hot.config.js --hot --progress
+```
+
+Now you should be able to modify the template of `src/Component.vue` and see
+changes when you save it.

@@ -6,7 +6,7 @@ define(function() {
     window['requirejs'].config({
         map: {
             '*': {
-                'flatsurf-widgets': 'nbextensions/flatsurf_widgets/index',
+		'flatsurf-widgets': 'http://localhost:9000/examples/index.js',
             },
         }
     });

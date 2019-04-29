@@ -24,16 +24,17 @@ const resolve = {
 
 module.exports = [
   /**
-   * JupyterLab widget implementation
-   *
-   * This bundle is imported by the typescript code in bootstrap/
+   * Notebook extension for hot reloading
    */
   {
-    entry: './src/flatsurf-widgets-bundle.ts',
+    entry: './src/extension.ts',
     output: {
-      filename: 'flatsurf-widgets-bundle.js',
-      path: path.resolve(__dirname, 'lib'),
-      libraryTarget: 'commonjs'
+      filename: 'index.js',
+      // HACK: Webpack wants to load from the current directory
+      // (notebooks/examples when looking at the example notebook.)
+      // So we write hot updates there with the writeToDisk: true below.
+      path: path.resolve(__dirname, 'examples'),
+      libraryTarget: 'amd'
     },
     module: {
       rules: rules
@@ -42,6 +43,12 @@ module.exports = [
     externals,
     resolve,
     plugins,
+    devServer: {
+      port: 9000,
+      hot: true,
+      // work around https://github.com/webpack/webpack-dev-server/issues/1591
+      writeToDisk: true,
+    }
   },
   /**
    * Notebook extension
@@ -55,6 +62,34 @@ module.exports = [
       filename: 'index.js',
       path: path.resolve(__dirname, 'flatsurf_widgets', 'nbextension', 'static'),
       libraryTarget: 'amd'
+    },
+    module: {
+      rules: rules
+    },
+    devtool: 'source-map',
+    externals,
+    resolve,
+    plugins,
+    devServer: {
+      port: 9000,
+      publicPath: 'http://localhost:9000/index.js',
+      // public: 'localhost:9000',
+      hot: true,
+      // work around https://github.com/webpack/webpack-dev-server/issues/1591
+      writeToDisk: true,
+    }
+  },
+  /**
+   * JupyterLab widget implementation
+   *
+   * This bundle is imported by the typescript code in bootstrap/
+   */
+  {
+    entry: './src/flatsurf-widgets-bundle.ts',
+    output: {
+      filename: 'flatsurf-widgets-bundle.js',
+      path: path.resolve(__dirname, 'lib'),
+      libraryTarget: 'commonjs'
     },
     module: {
       rules: rules
